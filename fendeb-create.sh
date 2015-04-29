@@ -43,6 +43,7 @@ mkdir -p $path/build
 mkdir -p $path/logs
 mkdir -p $path/cache
 mkdir -p $path/result
+touch $path/result/Packages
 
 if [ $VERBOSE ]; then
     echo "Creating hook script to allow use of deb files that have been built already"
@@ -70,14 +71,14 @@ if [ $VERBOSE ]; then
     echo "Initilising pbuilder to create new workspace"
 fi
 
-sudo pbuilder --create --basetgz $path/base.tar.gz \
+sudo "$PBUILDER_BIN" --create --basetgz "$path"/base.tar.gz \
             --architecture $ARCH \
             --mirror $MIRROR \
-            --buildplace $path/build \
+            --buildplace "$path"/build \
             --distribution $RELEASE \
-            --aptcache $path/cache \
+            --aptcache "$path"/cache \
             --debootstrapopts --variant=buildd \
-            --buildresult $path/result \
+            --buildresult "$path"/result \
             --extrapackages apt-utils
 
 if [ $? == 0 ]; then

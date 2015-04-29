@@ -45,12 +45,12 @@ fi
 
 set -u
 
-sudo pbuilder --build --basetgz $path/base.tar.gz \
+sudo "$PBUILDER_BIN" --build --basetgz "$path"/base.tar.gz \
 			--architecture $ARCH \
-			--buildplace $path/build \
+			--buildplace "$path"/build \
 			--distribution $DISTRO \
-			--aptcache $path/cache \
-			--buildresult $path/result \
+			--aptcache "$path"/cache \
+			--buildresult "$path"/result \
 			--override-config \
-			--configfile $path/pbuilderrc \
-			--extrapackages apt-utils $3 2>&1 | tee $path/logs/$3.log
+			--configfile "$path"/pbuilderrc \
+			--extrapackages apt-utils $3 2>&1 | tee "$path"/logs/$3.log
