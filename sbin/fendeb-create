@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$PROG" ]; then
-    source fendeb.sh create $@
+    source fendeb create $@
     exit 0
 fi
 

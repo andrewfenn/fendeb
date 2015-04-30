@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$PROG" ]; then
-    source fendeb.sh update $@
+    source fendeb update $@
     exit 0
 fi
 

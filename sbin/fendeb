@@ -604,16 +604,16 @@ fi
 
 case "$action" in
     build)
-        source fendeb-build.sh
+        source fendeb-build
     ;;
     create)
-        source fendeb-create.sh
+        source fendeb-create
     ;;
     update)
-        source fendeb-update.sh
+        source fendeb-update
     ;;
     make)
-        source fendeb-make.sh
+        source fendeb-make
     ;;
     help)
         show_help

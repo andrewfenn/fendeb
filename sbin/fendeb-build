@@ -3,7 +3,7 @@
 set -e
 
 if [ -z "$PROG" ]; then
-    source fendeb.sh build $@
+    source fendeb build $@
     exit 0
 fi
 
