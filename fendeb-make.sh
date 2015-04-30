@@ -36,11 +36,9 @@ if [ $VERBOSE ]; then
     echo "Building with pbuilder at: $path"
 fi
 
-exit
-
 if [ -z $3 ]; then
    echo "Must include dsc file"
-   exit 1
+   exit 3
 fi
 
 set -u

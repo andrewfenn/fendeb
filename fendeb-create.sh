@@ -91,4 +91,8 @@ if [ $? == 0 ]; then
     echo "Your files will be built in: $path"
     echo "Your deb files will be saved in: $path/result"
     echo "Downloaded deb files will be saved in: $path/cache"
+
+    exit 0
 fi
+
+exit 1

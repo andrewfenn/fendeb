@@ -12,7 +12,6 @@ if [ $VERBOSE ]; then
     echo "pbuilder binary: $PBUILDER_BIN"
 fi
 
-
 required_checks
 configure_path
-set_working_builder
+set_working_builder $REQ_ENV

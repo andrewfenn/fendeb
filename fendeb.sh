@@ -36,7 +36,7 @@ required_checks()
     fi
 
     if [ $error ]; then
-        exit 1
+        exit 2
     fi
 
     PBUILDER_BIN=`get_full_path "pbuilder"`
@@ -67,15 +67,14 @@ choose_distro()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            # cancelled
-            exit
+            exit 1
         fi
         DISTRO=$dist
     fi
 
     if [ -z $DISTRO ]; then
         echo -en $RED"Error$NO_COLOUR: Distribution is not set. Use the -d option to set one.\n"
-        exit 2
+        exit 3
     fi
 }
 
@@ -93,7 +92,7 @@ choose_mirror()
         ;;
         *)
             echo -en $RED"Error$NO_COLOUR: Distribution not found\n"
-            exit 3
+            exit 1
         ;;
         esac
 
@@ -125,7 +124,7 @@ choose_mirror()
             wget -q -O $file "$mirrorslist"
             if [ $? != 0 ]; then
                 echo -en $RED"Error$NO_COLOUR: Could not download mirror list\n"
-                exit 4
+                exit 1
             fi
         fi
 
@@ -137,8 +136,7 @@ choose_mirror()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            # cancelled
-            exit
+            exit 1
         fi
 
         MIRROR=$mirror
@@ -146,7 +144,7 @@ choose_mirror()
 
     if [ -z $MIRROR ]; then
         echo -en $RED"Error$NO_COLOUR: Mirror is not set. Use the -m option to set one.\n"
-        exit 2
+        exit 3
     fi
 }
 
@@ -180,7 +178,7 @@ choose_release()
             wget -q -O $file "$MIRROR/dists"
             if [ $? != 0 ]; then
                 echo -en $RED"Error$NO_COLOUR: Could not download release list\n"
-                exit 4
+                exit 1
             fi
 
             # stips out all the HTML and gives us just the release names
@@ -224,8 +222,7 @@ choose_release()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            # cancelled
-            exit
+            exit 1
         fi
 
         RELEASE=$release
@@ -233,7 +230,7 @@ choose_release()
 
     if [ -z $RELEASE ]; then
         echo -en $RED"Error$NO_COLOUR: Release is not set. Use the -r option to set one.\n"
-        exit 2
+        exit 3
     fi
 }
 
@@ -257,8 +254,7 @@ choose_arch()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            # cancelled
-            exit
+            exit 1
         fi
 
         ARCH=$arch
@@ -266,7 +262,7 @@ choose_arch()
 
     if [ -z $ARCH ]; then
         echo -en $RED"Error$NO_COLOUR: Architecture is not set. Use the -a option to set one.\n"
-        exit 2
+        exit 3
     fi
 
     # get components for this arch
@@ -280,10 +276,15 @@ set_working_builder()
     path=`get_fendeb_path`
     current=$1
 
+    file="$path/available-builds"
+    if [ ! -f $file ]; then
+        echo -en $RED"Error$NO_COLOUR: There are no builds. Create one first with 'fendeb create'\n"
+        exit 4
+    fi
+    rawbuilds=`cat $file`
+
     if [ ! $AUTOMATED ] && [ -z $current ]; then
 
-        file="$path/available-builds"
-        rawbuilds=`cat $file`
         builds=""
         for build in $rawbuilds; do
             builds+="$build \"\" "
@@ -296,21 +297,48 @@ set_working_builder()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-
-            current=`get_working_builder`
-            echo "On build $current"
-            # cancelled
-            exit 2
+            print_working_builder
+            exit 1
         fi
     fi
 
     if [ ! -z $current ]; then
+
+        has_build=no
+        for build in $rawbuilds; do
+            if [ "$build" == "$current" ]; then
+                has_build=yes
+            fi
+        done
+
+        if [ $has_build == no ]; then
+            echo -en $RED"Error$NO_COLOUR: Environment not found '$current'\n"
+            exit 4
+        fi
+
+        old_current=`get_working_builder`
         file="$path/current-build"
         echo "$current" > $file
+        if [ -z `get_working_builder` ]; then
+            echo -en $RED"Error$NO_COLOUR: Can not set '$current' as current environment. Environment not found.\n"
+            echo "$old_current" > $file
+            exit 4
+        fi
     fi
 
+    print_working_builder
+}
+
+print_working_builder()
+{
     current=`get_working_builder`
-    echo "On build $current"
+
+    if [ ! -z $current ]; then
+        echo "On build $current"
+        exit
+    fi
+
+    echo "No working build environment set"
 }
 
 get_working_builder()
@@ -320,7 +348,7 @@ get_working_builder()
 
     if [ -f $file ]; then
         current=`cat $file`
-        dir=$STORAGE_PATH/$current
+        dir="$STORAGE_PATH/$current"
 
         if [ -d $dir ]; then
             echo $current
@@ -330,28 +358,35 @@ get_working_builder()
 
 configure_path()
 {
-    path=`get_fendeb_path`
-
     # get config for the storage path
+    path=`get_fendeb_path`
     file="$path/storage-path"
-    if [ -f $file ]; then
+
+    # automatically set the storage path if we're in a script
+    if [ $AUTOMATED ] && [ ! -z $STORAGE_PATH ]; then
+        `echo $STORAGE_PATH > $file`
+    fi
+
+    # get previously set storage location variable
+    if [ -z $STORAGE_PATH ] && [ -f $file ]; then
         STORAGE_PATH=`cat $file`
     fi
+
+    # so storage location set yet, prompt the user
     if [ ! $AUTOMATED ] && [ -z $STORAGE_PATH ]; then
         STORAGE_PATH=$(whiptail --inputbox "Please select a directory for storing all the pbuilder files." 8 78 $HOME/fendeb --title "pbuilder storage" 3>&1 1>&2 2>&3)
         if [ $? != 0 ]; then
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            # cancelled
-            exit
+            exit 1
         fi
 
         `echo $STORAGE_PATH > $file`
     fi
     if [ -z $STORAGE_PATH ]; then
         echo -en $RED"Error$NO_COLOUR: Storage path not set. Use to -s option to set one.\n"
-        exit 2
+        exit 3
     fi
 }
 
@@ -536,6 +571,7 @@ if [ $# -gt 0 ]; then
             build)
                 if [ -z $action ]; then
                     action="build"
+                    REQ_ENV="$2"
                 fi
             ;;
             create)
@@ -554,7 +590,9 @@ if [ $# -gt 0 ]; then
                 fi
             ;;
             *)
-                action="error"
+                if [ -z $action ]; then
+                    action="error"
+                fi
             ;;
         esac
     done
