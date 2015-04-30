@@ -393,7 +393,7 @@ configure_path()
 show_help()
 {
     if [ -n "$HAS_GNU_ENHANCED_GETOPT" ]; then
-       echo "$LONG_HELP"
+        echo "$LONG_HELP"
     else
         echo "$SHORT_HELP"
     fi
@@ -473,19 +473,23 @@ SHORT_HELP="$HELP
   -d   which distro you wish to use. i.e. debian, ubuntu
   -r   which release you wish to use. e.g. stable, testing
   -a   which arch you wish to use. i.e. i386, amd64
-  -p   for automated use, will not display interactive screens however, may error if required information not supplied
+  -p   for automated use, will not display interactive screens however, may
+       error if required information not supplied
   -s   changes the storage path where pbuilder files are kept for building debs
   -v   show extra information
   -h   show this help message
   -V   show version information"
 
 LONG_HELP="$HELP
-  -m | --mirror         which mirror you wish to use. e.g. http://archive.debian.org/debian/
+  -m | --mirror         which mirror you wish to use.
+                        e.g. http://archive.debian.org/debian/
   -d | --dist           which distro you wish to use. i.e. debian, ubuntu
   -r | --release        which release you wish to use. e.g. stable, testing
   -a | --arch           which arch you wish to use. i.e. i386, amd64
-  -p | --automated      for automated use, will not display interactive screens however may error if required information not supplied
-  -s | --storage        changes the storage path where pbuilder files are kept for building debs
+  -p | --automated      for automated use, will not display interactive screens
+                        however may error if required information not supplied
+  -s | --storage        changes the storage path where pbuilder files are kept
+                        for building debs
   -v | --verbose        show extra information
   -h | --help           show this help message
   -V | --version        show version information"
