@@ -459,7 +459,7 @@ Written by Andrew Fenn, see <https://github.com/andrewfenn/fendeb>.\n"
 }
 
 SHORT_OPTS=m:d:r:a:pvhV
-LONG_OPTS=mirror:,distribution:,release:,architecture:,automated,verbose,version,help
+LONG_OPTS=mirror:,dist:,release:,arch:,automated,verbose,version,help
 
 HELP="Usage: $PROG [options] arguments
 
@@ -481,9 +481,9 @@ SHORT_HELP="$HELP
 
 LONG_HELP="$HELP
   -m | --mirror         which mirror you wish to use. e.g. http://archive.debian.org/debian/
-  -d | --distribution   which distro you wish to use. i.e. debian, ubuntu
+  -d | --dist           which distro you wish to use. i.e. debian, ubuntu
   -r | --release        which release you wish to use. e.g. stable, testing
-  -a | --architecture   which arch you wish to use. i.e. i386, amd64
+  -a | --arch           which arch you wish to use. i.e. i386, amd64
   -p | --automated      for automated use, will not display interactive screens however may error if required information not supplied
   -s | --storage        changes the storage path where pbuilder files are kept for building debs
   -v | --verbose        show extra information
@@ -521,7 +521,7 @@ eval set -- $ARGS
 ## Process parsed options (customize this: 2 of 3)
 while [ $# -gt 0 ]; do
     case "$1" in
-        -d | --distro)
+        -d | --dist)
             DISTRO="$2"
         ;;
         -m | --mirror)

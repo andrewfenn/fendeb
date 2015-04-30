@@ -39,27 +39,16 @@ Finally it also tracks state such as what was the last environment you were usin
 
 # OPTIONS
 
-  -m | --mirror         which mirror you wish to use. e.g. http://archive.debian.org/debian/
-  -d | --distribution   which distro you wish to use. i.e. debian, ubuntu
-  -r | --release        which release you wish to use. e.g. stable, testing
-  -a | --architecture   which arch you wish to use. i.e. i386, amd64
-  -p | --automated      for automated use, will not display interactive screens however may error if required information not supplied
-  -s | --storage        changes the storage path where pbuilder files are kept for building debs
-  -v | --verbose        show extra information
-  -h | --help           show this help message
-  -V | --version        show version information"
-
-
 `-m [mirror url]`, `--user [mirror url]`
 :   Which mirror you wish to use. If no argument is given, you will be prompted for a release to choose.
 
-`-d [distribution]`, `--distribution [distribution]`
+`-d [distribution]`, `--dist [distribution]`
 :   Which distribution you wish to use. i.e. debian, ubuntu. If no argument is given, you will be prompted to choose.
 
 `-r [release]`, `--release [release]`
 :   Which release of a distribution you wish to use. e.g. stable in debian. vivid in Ubuntu. If no argument is given, you will be prompted to choose.
 
-`-a`, `--architecture`
+`-a`, `--arch [architecture]`
 :   Which arch you wish to use. e.g. i386, amd64
 
 `-p`, `--automated`
@@ -88,6 +77,7 @@ These variables are used by pbuilder when building your debian files and need to
 
 # CREATING AN ENVIRONMENT
 
+
 You can create a new build environment like so
 
     $ fendeb create
@@ -100,6 +90,7 @@ When you create a new environment it automatically becomes your current working 
 
 # SWITCHING ENVIRONMENTS
 
+
 If you have more than one build environment you can switch which one is set to the current working environment like so
 
     $ fendeb build
@@ -110,11 +101,12 @@ or
 
 # UPDATING AN ENVIRONMENT
 
-Sometimes you might when to upgrade your environment with the latest packages. You can do this like so
+Sometimes you might want to upgrade your environment with the latest packages. You can do this like so
 
     $ fendeb update
 
 # BUILDING A DEB FILE WITH THE ENVIRONMENT
+
 
 To build an environment you must first go into the project and run debuild. This will generate a .dsc file which you then feed through to fenbuild.
 
@@ -123,6 +115,7 @@ To build an environment you must first go into the project and run debuild. This
 This will start pbuilder and generate a log file for you into your environment folder for reference.
 
 # EXIT CODES
+
 
 There are a bunch of different error codes and their corresponding error messages that may appear during bad conditions. At the time of this writing, the exit codes are:
 
@@ -139,5 +132,6 @@ There are a bunch of different error codes and their corresponding error message
 :   Build environment missing or no environment(s) found
 
 # KNOWN ISSUES & BUGS
+
 
 The upstream BTS can be found at <https://github.com/andrewfenn/fendeb/issues>.
