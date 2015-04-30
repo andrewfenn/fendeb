@@ -1,0 +1,224 @@
+.TH "FENDEB" "1" "2015\-04\-30" "fendeb User Manual" ""
+.SH NAME
+.PP
+fendeb \- Conveniance scripts for using pbuilder
+.SH SYNOPSIS
+.PP
+fendeb [actions] [options]
+.SH DESCRIPTION
+.PP
+This manual page documents briefly the fendeb scripts suite.
+.PP
+Fendeb is a collection of helper scripts designed to allow you to
+quickly and easily prompt you through the management of multiple
+pbuilder environments that you can use to build debian files.
+.PP
+It abstracts away gathering details required to configure an environment
+by giving you easy on screen prompts to selecting which distribution,
+release and architecture you wish to use for building.
+.PP
+Finally it also tracks state such as what was the last environment you
+were using for building so that you don\[aq]t have to continuously
+specify which environment you want to use when building debian files.
+.SH ACTIONS
+.TP
+.B \f[C]create\f[]
+Creates a new pbuilder environment
+.RS
+.RE
+.TP
+.B \f[C]update\f[]
+Updates and upgrades an environment to include the latest packages from
+a release
+.RS
+.RE
+.TP
+.B \f[C]build\f[]
+Switches build environments so that you can use a different pbuilder
+environment on your system
+.RS
+.RE
+.TP
+.B \f[C]make\f[]
+Builds a new debian file using a .dsc file
+.RS
+.RE
+.TP
+.B \f[C]help\f[]
+Prints a usage help.
+.RS
+.RE
+.SH OPTIONS
+.TP
+.B \f[C]\-m\ [mirror\ url]\f[], \f[C]\-\-user\ [mirror\ url]\f[]
+Which mirror you wish to use.
+If no argument is given, you will be prompted for a release to choose.
+.RS
+.RE
+.TP
+.B \f[C]\-d\ [distribution]\f[], \f[C]\-\-dist\ [distribution]\f[]
+Which distribution you wish to use.
+i.e.
+debian, ubuntu.
+If no argument is given, you will be prompted to choose.
+.RS
+.RE
+.TP
+.B \f[C]\-r\ [release]\f[], \f[C]\-\-release\ [release]\f[]
+Which release of a distribution you wish to use.
+e.g.
+stable in debian.
+vivid in Ubuntu.
+If no argument is given, you will be prompted to choose.
+.RS
+.RE
+.TP
+.B \f[C]\-a\f[], \f[C]\-\-arch\ [architecture]\f[]
+Which arch you wish to use.
+e.g.
+i386, amd64
+.RS
+.RE
+.TP
+.B \f[C]\-p\f[], \f[C]\-\-automated\f[]
+For script use.
+Will not display interactive screens, however may error if required
+information above not supplied.
+.RS
+.RE
+.TP
+.B \f[C]\-s\ [directory]\f[], \f[C]\-\-storage\ [directory]\f[]
+Sets the storage path where pbuilder files will be saved to.
+This setting will be saved in \[aq]~/.fendeb/storage\-path\[aq] when
+first prompted unless overrided with this option in which case that
+option will be saved overwriting the previously set option.
+.RS
+.RE
+.TP
+.B \f[C]\-v\f[], \f[C]\-\-verbose\f[]
+Be verbose.
+.RS
+.RE
+.TP
+.B \f[C]\-h\f[], \f[C]\-\-help\f[]
+Prints some usage information.
+.RS
+.RE
+.TP
+.B \f[C]\-V\f[], \f[C]\-\-version\f[]
+Prints version.
+.RS
+.RE
+.SH CONFIGURATION
+.PP
+To begin using fendeb first you must configure your debian settings.
+Please make sure the following settings are set before beginning in your
+\[aq]~/.bashrc\[aq] or related file.
+.IP
+.nf
+\f[C]
+export\ DEBFULLNAME="Your\ name"
+export\ DEBEMAIL="your\@email.com"
+\f[]
+.fi
+.PP
+These variables are used by pbuilder when building your debian files and
+need to be set.
+If you don\[aq]t set them then fendeb will error out and ask you to set
+them until you do.
+.SH CREATING AN ENVIRONMENT
+.PP
+You can create a new build environment like so
+.IP
+.nf
+\f[C]
+$\ fendeb\ create
+\f[]
+.fi
+.PP
+or for scripts
+.IP
+.nf
+\f[C]
+$\ fendeb\ create\ \-a\ \-m\ http://ftp.us.debian.org/debian\ \-d\ debian\ \-r\ stable\ \-a\ amd64\ \-s\ ~/fendeb
+\f[]
+.fi
+.PP
+When you create a new environment it automatically becomes your current
+working environment.
+This means when you use other commands such as update or make you
+don\[aq]t need to specify which environment.
+.SH SWITCHING ENVIRONMENTS
+.PP
+If you have more than one build environment you can switch which one is
+set to the current working environment like so
+.IP
+.nf
+\f[C]
+$\ fendeb\ build
+\f[]
+.fi
+.PP
+or
+.IP
+.nf
+\f[C]
+$\ fendeb\ build\ debian/stable/amd64
+\f[]
+.fi
+.SH UPDATING AN ENVIRONMENT
+.PP
+Sometimes you might want to upgrade your environment with the latest
+packages.
+You can do this like so
+.IP
+.nf
+\f[C]
+$\ fendeb\ update
+\f[]
+.fi
+.SH BUILDING A DEB FILE WITH THE ENVIRONMENT
+.PP
+To build an environment you must first go into the project and run
+debuild.
+This will generate a .dsc file which you then feed through to fenbuild.
+.IP
+.nf
+\f[C]
+$\ fendeb\ make\ [target\ debian\ dsc\ file]
+\f[]
+.fi
+.PP
+This will start pbuilder and generate a log file for you into your
+environment folder for reference.
+.SH EXIT CODES
+.PP
+There are a bunch of different error codes and their corresponding error
+messages that may appear during bad conditions.
+At the time of this writing, the exit codes are:
+.TP
+.B \f[C]1\f[]
+Unknown error
+.RS
+.RE
+.TP
+.B \f[C]2\f[]
+Configuration error or pbuilder missing
+.RS
+.RE
+.TP
+.B \f[C]3\f[]
+Missing arguments
+.RS
+.RE
+.TP
+.B \f[C]4\f[]
+Build environment missing or no environment(s) found
+.RS
+.RE
+.SH KNOWN ISSUES & BUGS
+.PP
+The upstream BTS can be found at
+<https://github.com/andrewfenn/fendeb/issues>.
+.SH AUTHORS
+Andrew Fenn <andrewfenn@gmail.com>.

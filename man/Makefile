@@ -6,7 +6,7 @@ MAN_FILE=man1/fendeb.1
 all:
 	@echo "usage: make man"
 	@echo "       make clean"
-man:
+gen:
 	install -d -m 0755 man1
 	pandoc -s \
         -w man fendeb.1.md \

@@ -11,29 +11,32 @@ EXEC_FILES=sbin/fendeb sbin/fendeb-build sbin/fendeb-create sbin/fendeb-make sbi
 MAN_FILE=man1/fendeb.1
 
 all:
-	@echo "usage: make install     -> installs fendeb only"
+	@echo "usage: make install     -> installs fendeb and man pages"
 	@echo "       make install-man -> installs man pages only"
-	@echo "       make install-all -> installs fendeb and man pages"
+	@echo "       make install-app -> installs fendeb only"
+	@echo "       make gen-doc     -> generates the man pages"
 	@echo "       make uninstall"
 	@echo "       make uninstall-man"
-	@echo "       make uninstall-all"
 	@echo "       make clean"
 
-install:
+install-app:
 	install -d -m 0755 $(prefix)/sbin
 	install -m 0755 $(EXEC_FILES) $(prefix)/sbin
+
+gen-doc:
+	cd man && \
+	make gen
 
 install-man:
 	install -d -m 0755 $(prefix)/man
 	cd man && \
-	make man && \
 	install -d -m 0755 $(prefix)/man/man1 && \
 	install -m 0644 $(MAN_FILE) $(prefix)/man/man1 && \
 	mandb $(prefix)/man/man1
 
-install-all: install install-man
+install: install-app install-man
 
-uninstall:
+uninstall-app:
 	test -d $(prefix)/sbin && \
 	cd $(prefix) && \
 	rm -f $(EXEC_FILES)
@@ -45,7 +48,7 @@ uninstall-man:
 	mandb -f $(prefix)/man/$(MAN_FILE)
 	rmdir --ignore-fail-on-non-empty $(prefix)/man/man1
 
-uninstall-all: uninstall uninstall-man
+uninstall: uninstall-app uninstall-man
 
 clean:
 	cd man && make clean
