@@ -43,10 +43,8 @@ fi
 
 set -u
 
-sudo "$PBUILDER_BIN" --build --basetgz "$path"/base.tar.gz \
-			--architecture $ARCH \
+"$PBUILDER_BIN" $RELEASE $ARCH build --basetgz "$path"/base.tar.gz \
 			--buildplace "$path"/build \
-			--distribution $DISTRO \
 			--aptcache "$path"/cache \
 			--buildresult "$path"/result \
 			--override-config \

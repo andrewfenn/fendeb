@@ -71,11 +71,9 @@ if [ $VERBOSE ]; then
     echo "Initilising pbuilder to create new workspace"
 fi
 
-sudo "$PBUILDER_BIN" --create --basetgz "$path"/base.tar.gz \
-            --architecture $ARCH \
+"$PBUILDER_BIN" $RELEASE $ARCH create --basetgz "$path"/base.tar.gz \
             --mirror $MIRROR \
             --buildplace "$path"/build \
-            --distribution $RELEASE \
             --aptcache "$path"/cache \
             --debootstrapopts --variant=buildd \
             --buildresult "$path"/result \

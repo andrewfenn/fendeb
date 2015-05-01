@@ -3,7 +3,7 @@
 set -e
 
 PROG=`basename $0`
-VERSION=0.3.0
+VERSION=0.4.0
 
 # Screen Colours used for text
 RED="\e[01;31m"
@@ -39,7 +39,15 @@ required_checks()
         exit 2
     fi
 
-    PBUILDER_BIN=`get_full_path "pbuilder"`
+    pbuilder_binaries="pbuilder-dist"
+    for binary in $pbuilder_binaries; do
+        binary=`get_full_path "$binary"`
+
+        if [ ! -z "$binary" ]; then
+            PBUILDER_BIN=$binary
+        fi
+    done
+
     if [ -z "$PBUILDER_BIN" ]; then
         echo -en $RED"Error$NO_COLOUR: pbuilder missing. Did you want to install it now?\n"
         if [ $AUTOMATED ] || [ `confirm` ]; then

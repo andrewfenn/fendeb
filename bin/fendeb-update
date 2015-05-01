@@ -37,11 +37,9 @@ if [ $VERBOSE ]; then
     echo "Updating with pbuilder at: $path"
 fi
 
-sudo "$PBUILDER_BIN" --update \
+"$PBUILDER_BIN" $RELEASE $ARCH update \
             --basetgz "$path"/base.tar.gz \
-            --architecture $ARCH \
             --buildplace "$path"/build \
-            --distribution $RELEASE \
             --aptcache "$path"/cache \
             --buildresult "$path"/result \
             --override-config \
