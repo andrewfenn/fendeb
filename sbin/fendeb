@@ -281,7 +281,14 @@ set_working_env()
         echo -en $RED"Error$NO_COLOUR: There are no builds. Create one first with 'fendeb create'\n"
         exit 4
     fi
-    rawbuilds=`cat $file`
+
+    # Filter out the list any environments which don't exist anymore
+    rawbuilds=
+    for build in `cat $file`; do
+        if [ -f "$STORAGE_PATH/$build/base.tar.gz" ]; then
+            rawbuilds+="$build "
+        fi
+    done
 
     if [ ! $AUTOMATED ] && [ -z $current ]; then
 
