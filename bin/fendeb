@@ -55,7 +55,7 @@ required_checks()
             if [ $VERBOSE ]; then
                 opts=
             fi
-            sudo apt-get $opts install whiptail debian-keyring devscripts build-essential fakeroot debhelper gnupg pbuilder patch cdbs quilt lintian
+            sudo apt-get $opts install whiptail distro-info-data debian-keyring devscripts build-essential fakeroot debhelper gnupg pbuilder patch cdbs quilt lintian
         else
             exit 2
         fi
