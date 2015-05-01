@@ -5,7 +5,7 @@ DESTDIR?=/usr/local
 prefix?=${DESTDIR}
 
 # files that need mode 755
-EXEC_FILES=sbin/fendeb sbin/fendeb-env sbin/fendeb-create sbin/fendeb-build sbin/fendeb-update
+EXEC_FILES=bin/fendeb bin/fendeb-env bin/fendeb-create bin/fendeb-build bin/fendeb-update
 
 # files that need mode 644
 MAN_FILE=man1/fendeb.1
@@ -20,8 +20,8 @@ all:
 	@echo "       make clean"
 
 install-app:
-	install -d -m 0755 $(prefix)/sbin
-	install -m 0755 $(EXEC_FILES) $(prefix)/sbin
+	install -d -m 0755 $(prefix)/bin
+	install -m 0755 $(EXEC_FILES) $(prefix)/bin
 	install -d -m 0755 /etc/bash_completion.d
 	install -m 0644 contrib/autocomplete.sh /etc/bash_completion.d/fendeb
 
@@ -39,7 +39,7 @@ install-man:
 install: install-app install-man
 
 uninstall-app:
-	test -d $(prefix)/sbin && \
+	test -d $(prefix)/bin && \
 	cd $(prefix) && \
 	rm -f $(EXEC_FILES)
 	rm -f /etc/bash_completion.d/fendeb
