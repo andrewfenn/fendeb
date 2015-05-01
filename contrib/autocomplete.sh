@@ -3,10 +3,11 @@ _fendeb_general()
     COMPREPLY=()
     local home=$HOME/.fendeb
     local cur="${COMP_WORDS[COMP_CWORD]}"
+    local opts
 
     # No command typed in yet
     if [ "$COMP_CWORD" == "1" ]; then
-        local opts="build env create"
+        opts="build env create"
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         return 0
     fi
@@ -21,7 +22,9 @@ _fendeb_general()
             if [ "$COMP_CWORD" == "2" ]; then
                 local storage_path=`cat $home/storage-path`
                 local file="$home/available-envs"
-                local rawbuilds=
+
+                opts="list"
+                local rawbuilds="$opts "
                 for build in `cat $file`; do
                     if [ -f "$storage_path/$build/base.tar.gz" ]; then
                         rawbuilds+="$build "

@@ -290,33 +290,45 @@ set_working_env()
         fi
     done
 
-    if [ ! $AUTOMATED ] && [ -z $current ]; then
+    if [ -z $current ]; then
         print_working_env
         exit
     fi
 
-    if [ ! -z $current ]; then
-
-        has_build=no
+    if [ "$current" == "list" ]; then
+        current=`get_working_env`
+        builds=""
         for build in $rawbuilds; do
             if [ "$build" == "$current" ]; then
-                has_build=yes
+                builds+="* $GREEN$build$NO_COLOUR\n"
+            else
+                builds+="  $build\n"
             fi
+
         done
+        echo -en "$builds"
+        exit
+    fi
 
-        if [ $has_build == no ]; then
-            echo -en $RED"Error$NO_COLOUR: Environment not found '$current'\n"
-            exit 4
+    has_build=no
+    for build in $rawbuilds; do
+        if [ "$build" == "$current" ]; then
+            has_build=yes
         fi
+    done
 
-        old_current=`get_working_env`
-        file="$path/current-env"
-        echo "$current" > $file
-        if [ -z `get_working_env` ]; then
-            echo -en $RED"Error$NO_COLOUR: Can not set '$current' as current environment. Environment not found.\n"
-            echo "$old_current" > $file
-            exit 4
-        fi
+    if [ $has_build == no ]; then
+        echo -en $RED"Error$NO_COLOUR: Environment not found '$current'\n"
+        exit 4
+    fi
+
+    old_current=`get_working_env`
+    file="$path/current-env"
+    echo "$current" > $file
+    if [ -z `get_working_env` ]; then
+        echo -en $RED"Error$NO_COLOUR: Can not set '$current' as current environment. Environment not found.\n"
+        echo "$old_current" > $file
+        exit 4
     fi
 
     print_working_env

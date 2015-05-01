@@ -93,11 +93,15 @@ When you create a new environment it automatically becomes your current working 
 
 If you have more than one build environment you can switch which one is set to the current working environment like so
 
+    $ fendeb env debian/stable/amd64
+
+To find out which environment you're currently using
+
     $ fendeb env
 
-or
+To list the environments that are currently available for use
 
-    $ fendeb env debian/stable/amd64
+    $ fendeb env list
 
 # UPDATING AN ENVIRONMENT
 
