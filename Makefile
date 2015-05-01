@@ -22,6 +22,8 @@ all:
 install-app:
 	install -d -m 0755 $(prefix)/sbin
 	install -m 0755 $(EXEC_FILES) $(prefix)/sbin
+	install -d -m 0755 /etc/bash_completion.d
+	install -m 0644 contrib/autocomplete.sh /etc/bash_completion.d/fendeb
 
 gen-doc:
 	cd man && \
@@ -40,6 +42,7 @@ uninstall-app:
 	test -d $(prefix)/sbin && \
 	cd $(prefix) && \
 	rm -f $(EXEC_FILES)
+	rm -f /etc/bash_completion.d/fendeb
 
 uninstall-man:
 	test -d $(prefix)/man && \

@@ -3,7 +3,7 @@
 set -e
 
 PROG=`basename $0`
-VERSION=0.2.0
+VERSION=0.3.0
 
 # Screen Colours used for text
 RED="\e[01;31m"
@@ -291,22 +291,8 @@ set_working_env()
     done
 
     if [ ! $AUTOMATED ] && [ -z $current ]; then
-
-        builds=""
-        for build in $rawbuilds; do
-            builds+="$build \"\" "
-        done
-
-        current=$(whiptail --title "Current working build" --menu --noitem \
-            "Select a new current working build" 15 30 5 $builds 3>&1 1>&2 2>&3)
-
-        if [ $? != 0 ]; then
-            if [ $VERBOSE ]; then
-                echo "User cancelled"
-            fi
-            print_working_env
-            exit 1
-        fi
+        print_working_env
+        exit
     fi
 
     if [ ! -z $current ]; then
