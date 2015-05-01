@@ -20,7 +20,14 @@ _fendeb_general()
         ;;
         env)
             if [ "$COMP_CWORD" == "2" ]; then
+                if [ ! -f "$home/storage-path" ]; then
+                    return 0
+                fi
                 local storage_path=`cat $home/storage-path`
+
+                if [ ! -f "$home/available-envs" ]; then
+                    return 0
+                fi
                 local file="$home/available-envs"
 
                 opts="list"
