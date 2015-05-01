@@ -84,7 +84,7 @@ sudo "$PBUILDER_BIN" --create --basetgz "$path"/base.tar.gz \
 if [ $? == 0 ]; then
 
     path=`get_fendeb_path`
-    file="$path/available-builds"
+    file="$path/available-envs"
     echo "$DISTRO/$RELEASE/$ARCH" >> $file
 
     echo -en $GREEN"Finished"$NO_COLOUR"\n"

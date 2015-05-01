@@ -10,7 +10,7 @@ fi
 
 required_checks
 configure_path
-current=`get_working_builder`
+current=`get_working_env`
 if [ -z $current ]; then
     echo "No build selected or can be found. Select one with: fendeb build"
     exit 1

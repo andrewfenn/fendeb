@@ -5,7 +5,7 @@ DESTDIR?=/usr/local
 prefix?=${DESTDIR}
 
 # files that need mode 755
-EXEC_FILES=sbin/fendeb sbin/fendeb-build sbin/fendeb-create sbin/fendeb-make sbin/fendeb-update
+EXEC_FILES=sbin/fendeb sbin/fendeb-env sbin/fendeb-create sbin/fendeb-build sbin/fendeb-update
 
 # files that need mode 644
 MAN_FILE=man1/fendeb.1

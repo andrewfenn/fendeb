@@ -1,7 +1,7 @@
 .TH "FENDEB" "1" "2015\-04\-30" "fendeb User Manual" ""
 .SH NAME
 .PP
-fendeb \- Conveniance scripts for using pbuilder
+fendeb \- Convenience scripts for using pbuilder
 .SH SYNOPSIS
 .PP
 fendeb [actions] [options]
@@ -33,13 +33,13 @@ a release
 .RS
 .RE
 .TP
-.B \f[C]build\f[]
+.B \f[C]env\f[]
 Switches build environments so that you can use a different pbuilder
 environment on your system
 .RS
 .RE
 .TP
-.B \f[C]make\f[]
+.B \f[C]build\f[]
 Builds a new debian file using a .dsc file
 .RS
 .RE
@@ -155,7 +155,7 @@ set to the current working environment like so
 .IP
 .nf
 \f[C]
-$\ fendeb\ build
+$\ fendeb\ env
 \f[]
 .fi
 .PP
@@ -163,7 +163,7 @@ or
 .IP
 .nf
 \f[C]
-$\ fendeb\ build\ debian/stable/amd64
+$\ fendeb\ env\ debian/stable/amd64
 \f[]
 .fi
 .SH UPDATING AN ENVIRONMENT
@@ -185,7 +185,7 @@ This will generate a .dsc file which you then feed through to fenbuild.
 .IP
 .nf
 \f[C]
-$\ fendeb\ make\ [target\ debian\ dsc\ file]
+$\ fendeb\ build\ [target\ debian\ dsc\ file]
 \f[]
 .fi
 .PP

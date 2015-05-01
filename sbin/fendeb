@@ -3,7 +3,7 @@
 set -e
 
 PROG=`basename $0`
-VERSION=0.1.0
+VERSION=0.2.0
 
 # Screen Colours used for text
 RED="\e[01;31m"
@@ -271,12 +271,12 @@ choose_arch()
     COMPONENTS=$components
 }
 
-set_working_builder()
+set_working_env()
 {
     path=`get_fendeb_path`
     current=$1
 
-    file="$path/available-builds"
+    file="$path/available-envs"
     if [ ! -f $file ]; then
         echo -en $RED"Error$NO_COLOUR: There are no builds. Create one first with 'fendeb create'\n"
         exit 4
@@ -297,7 +297,7 @@ set_working_builder()
             if [ $VERBOSE ]; then
                 echo "User cancelled"
             fi
-            print_working_builder
+            print_working_env
             exit 1
         fi
     fi
@@ -316,22 +316,22 @@ set_working_builder()
             exit 4
         fi
 
-        old_current=`get_working_builder`
-        file="$path/current-build"
+        old_current=`get_working_env`
+        file="$path/current-env"
         echo "$current" > $file
-        if [ -z `get_working_builder` ]; then
+        if [ -z `get_working_env` ]; then
             echo -en $RED"Error$NO_COLOUR: Can not set '$current' as current environment. Environment not found.\n"
             echo "$old_current" > $file
             exit 4
         fi
     fi
 
-    print_working_builder
+    print_working_env
 }
 
-print_working_builder()
+print_working_env()
 {
-    current=`get_working_builder`
+    current=`get_working_env`
 
     if [ ! -z $current ]; then
         echo "On build $current"
@@ -341,10 +341,10 @@ print_working_builder()
     echo "No working build environment set"
 }
 
-get_working_builder()
+get_working_env()
 {
     path=`get_fendeb_path`
-    file="$path/current-build"
+    file="$path/current-env"
 
     if [ -f $file ]; then
         current=`cat $file`
@@ -572,9 +572,9 @@ if [ $# -gt 0 ]; then
             help)
                 action="help"
             ;;
-            build)
+            env)
                 if [ -z $action ]; then
-                    action="build"
+                    action="env"
                     REQ_ENV="$2"
                 fi
             ;;
@@ -588,9 +588,9 @@ if [ $# -gt 0 ]; then
                     action="update"
                 fi
             ;;
-            make)
+            build)
                 if [ -z $action ]; then
-                    action="make"
+                    action="build"
                 fi
             ;;
             *)
@@ -612,8 +612,8 @@ case "$action" in
     update)
         source fendeb-update
     ;;
-    make)
-        source fendeb-make
+    env)
+        source fendeb-env
     ;;
     help)
         show_help

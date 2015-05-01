@@ -4,7 +4,7 @@
 
 # NAME
 
-fendeb - Conveniance scripts for using pbuilder
+fendeb - Convenience scripts for using pbuilder
 
 # SYNOPSIS
 
@@ -28,10 +28,10 @@ Finally it also tracks state such as what was the last environment you were usin
 `update`
 :   Updates and upgrades an environment to include the latest packages from a release
 
-`build`
+`env`
 :   Switches build environments so that you can use a different pbuilder environment on your system
 
-`make`
+`build`
 :   Builds a new debian file using a .dsc file
 
 `help`
@@ -93,11 +93,11 @@ When you create a new environment it automatically becomes your current working 
 
 If you have more than one build environment you can switch which one is set to the current working environment like so
 
-    $ fendeb build
+    $ fendeb env
 
 or
 
-    $ fendeb build debian/stable/amd64
+    $ fendeb env debian/stable/amd64
 
 # UPDATING AN ENVIRONMENT
 
@@ -110,7 +110,7 @@ Sometimes you might want to upgrade your environment with the latest packages. Y
 
 To build an environment you must first go into the project and run debuild. This will generate a .dsc file which you then feed through to fenbuild.
 
-    $ fendeb make [target debian dsc file]
+    $ fendeb build [target debian dsc file]
 
 This will start pbuilder and generate a log file for you into your environment folder for reference.
 

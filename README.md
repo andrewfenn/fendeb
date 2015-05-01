@@ -43,22 +43,22 @@ For updating an environment
 
 For building a package with an environment
 
-    $ fendeb make somepackage.dsc
+    $ fendeb build somepackage.dsc
 
 Changing Environments
 ------------
 
-Your current environment is set in `~/.fendeb/current-build`. You can set any
+Your current environment is set in `~/.fendeb/current-env`. You can set any
 environment which you have already created that is listed in
-`~/.fendeb/available-builds`.
+`~/.fendeb/available-envs`.
 
 To switch to a different environment you either type
 
-    $ fendeb build
+    $ fendeb env
 
 and then select from the interactive prompt, or you can type
 
-    $ fendeb build debian/stable/amd64
+    $ fendeb env debian/stable/amd64
 
 which will switch your environment to the Debian Stable AMD64 environment,
 assuming you have already created that environment.
