@@ -39,6 +39,8 @@ For making a new environment
 
     $ fendeb create
 
+The above creates a new folder in your home directory called fendeb where it will store all your environments.
+
 Or you can specify exactly what you want and skip the menu prompts
 
     $ fendeb create -d debian -m http://ftp.th.debian.org/debian/ -r stable -a amd64
@@ -50,6 +52,14 @@ For updating an environment
 For building a package with an environment
 
     $ fendeb build somepackage.dsc
+
+The above when successful will create your deb files in the following folder:
+~/fendeb/dist/verson/arch/result/
+
+So for example if you build on Debian Stable for AMD64 you will find your deb files in the following folder:
+~/fendeb/debian/stable/amd64/result/
+
+The configuration is setup to allow you to build debian packages that depend on packages you have already built if you so wish to do that.
 
 To login to an environment's command line as root
 
