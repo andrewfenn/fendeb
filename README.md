@@ -14,12 +14,12 @@ and building debian packages from source.
 About
 -----
 
-I use pbuilder a lot to build and test debian packages a lot and I often find
+I use pbuilder a lot to build and test debian packages and I often find
 it difficult to manage especially if you're building the same package on
 different releases such as the case is with distributions like Ubuntu.
 
 I made fendeb as an easy way to use pbuilder without having to type in any of
-the pbuilder commands or have to remember my exact environment variables.
+the pbuilder commands or have to remember my exact environment variable options.
 
 Installing
 ----------
