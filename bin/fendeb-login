@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -e
+
+if [ -z "$PROG" ]; then
+    source fendeb login $@
+    exit 0
+fi
+
+
+required_checks
+configure_path
+current=`get_working_env`
+if [ -z $current ]; then
+    echo "No build selected or can be found. Select one with: fendeb build"
+    exit 1
+fi
+
+IFS='/'
+arr=($current)
+
+DISTRO=${arr[0]}
+RELEASE=${arr[1]}
+ARCH=${arr[2]}
+
+if [ $VERBOSE ]; then
+    echo "Logging into build with environment:"
+    echo "pbuilder binary: $PBUILDER_BIN"
+    echo "Distribution: $DISTRO"
+    echo "From Release: $RELEASE"
+    echo "From Architecture: $ARCH"
+    echo "Storage Path: $STORAGE_PATH"
+fi
+
+path="$STORAGE_PATH/$DISTRO/$RELEASE/$ARCH"
+if [ $VERBOSE ]; then
+    echo "Logging in with pbuilder at: $path"
+fi
+
+"$PBUILDER_BIN" $RELEASE $ARCH login \
+            --basetgz "$path"/base.tar.gz \
+            --buildplace "$path"/build \
+            --aptcache "$path"/cache \
+            --buildresult "$path"/result \
+            --override-config \
+            --configfile "$path"/pbuilderrc \
+            --extrapackages apt-utils

@@ -24,6 +24,8 @@ the pbuilder commands or have to remember my exact environment variables.
 Installing
 ----------
 
+If you're using ubuntu make sure you have the ```ubuntu-dev-tools packaging-dev``` package installed.
+
 To install simply download the source code and type the standard make command
 
     $ sudo make install
@@ -36,6 +38,10 @@ Usage
 For making a new environment
 
     $ fendeb create
+
+    or you can specify exactly what you want and skip the menu prompts
+
+    $ fendeb create -d debian -m http://ftp.th.debian.org/debian/ -r stable -a amd64
 
 For updating an environment
 

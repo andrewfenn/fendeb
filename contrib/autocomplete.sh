@@ -7,7 +7,7 @@ _fendeb_general()
 
     # No command typed in yet
     if [ "$COMP_CWORD" == "1" ]; then
-        opts="build env create update"
+        opts="build env create update login"
         COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
         return 0
     fi

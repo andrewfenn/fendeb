@@ -601,6 +601,11 @@ if [ $# -gt 0 ]; then
                     action="update"
                 fi
             ;;
+            login)
+                if [ -z $action ]; then
+                    action="login"
+                fi
+            ;;
             build)
                 if [ -z $action ]; then
                     action="build"
@@ -624,6 +629,9 @@ case "$action" in
     ;;
     update)
         source fendeb-update
+    ;;
+    login)
+        source fendeb-login
     ;;
     env)
         source fendeb-env

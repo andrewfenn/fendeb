@@ -28,6 +28,9 @@ Finally it also tracks state such as what was the last environment you were usin
 `update`
 :   Updates and upgrades an environment to include the latest packages from a release
 
+`login`
+:   Logs you into an environment with the root user
+
 `env`
 :   Switches build environments so that you can use a different pbuilder environment on your system
 
