@@ -39,7 +39,7 @@ For making a new environment
 
     $ fendeb create
 
-The above creates a new folder in your home directory called fendeb where it will store all your environments.
+The above will show an interactive prompt menu that lets you select a dist, version and arch. It will then create a new folder in your home directory called fendeb where it will store all your environments including the one you just selected.
 
 Or you can specify exactly what you want and skip the menu prompts
 
