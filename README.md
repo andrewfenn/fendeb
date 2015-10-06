@@ -39,7 +39,7 @@ For making a new environment
 
     $ fendeb create
 
-    or you can specify exactly what you want and skip the menu prompts
+Or you can specify exactly what you want and skip the menu prompts
 
     $ fendeb create -d debian -m http://ftp.th.debian.org/debian/ -r stable -a amd64
 
@@ -50,6 +50,10 @@ For updating an environment
 For building a package with an environment
 
     $ fendeb build somepackage.dsc
+
+To login to an environment's command line as root
+
+    $ fendeb login
 
 Changing Environments
 ------------
