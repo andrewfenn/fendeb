@@ -49,6 +49,8 @@ For updating an environment
 
     $ fendeb update
 
+The above will run apt-get update && apt-get upgrade inside the environment making sure your base packages are up to date.
+
 For building a package with an environment
 
     $ fendeb build somepackage.dsc
